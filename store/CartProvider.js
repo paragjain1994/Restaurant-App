@@ -4,6 +4,7 @@ import CartContext from "./cart-context";
 const CartProvider = (props) => {
   const [items, updateItems] = useState([]);
 
+  // being invoked from MealItemForm comp cartcntx.addItem({ ...props.item, quantity: quantity })
   const addItemToCartHandler = (item) => {
     console.log(item.quantity); // quantity and id of the item which we have added from MealItemForm.js comp
     console.log(item.id);
@@ -21,7 +22,14 @@ const CartProvider = (props) => {
     console.log("inside addItemToCartHandler", cartContext);
   };
 
-  const removeItemFromCartHandler = () => {};
+  // being invoked from Cart comp cartcntx.removeItem(id)
+  const removeItemFromCartHandler = (id) => {
+    console.log("removed item id is" + id);
+    const idx = items.findIndex((i) => i.id === id);
+    let temp = [...items];
+    temp.splice(idx,1);
+    updateItems(temp);
+  };
 
   console.log("open " + items.length);
 
