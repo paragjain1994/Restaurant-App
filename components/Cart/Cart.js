@@ -8,45 +8,13 @@ const Cart = (props) => {
   console.log("seeing cart" + cartcntx.items);
   console.log("length of cart" + cartcntx.items.length);
 
-  const removeItemFromCart = (event) => {
-    event.preventDefault();
-    console.log("del");
-    if (event.target.classList.contains("del")) {
-      var list_ = event.target.parentElement; //ie jo target kiya hai (delete button) uska parent Element (li tag)
-      console.log(list_);
-      var id = event.target.parentElement.id;
-      console.log(id);
-    }
-
-    cartcntx.removeItem(id); // removeItemFromCartHandler function of CartProvider comp will be invoked and targeted item's id will be passed as an argument
-  };
-
-  const reduceItemFromCart = (event) => {
-    event.preventDefault();
+  const reduceItemFromCart = (id) => {
     console.log("reduce");
-    if (event.target.classList.contains("reduce")) {
-      var list_ = event.target.parentElement;
-      console.log(list_);
-      var quant = event.target.parentElement.value;
-      console.log("quant ="+quant);
-      var id = event.target.parentElement.id;
-      console.log(id);
-    }
-    cartcntx.removeItem(id,quant);
-    
+    cartcntx.removeItem(id);
   };
 
-  const increaseItemInCart = (event) => {
-    event.preventDefault();
+  const increaseItemInCart = (id) => {
     console.log("increase");
-    if (event.target.classList.contains("increase")) {
-      var list_ = event.target.parentElement;
-      console.log(list_);
-      var quant = event.target.parentElement.value;
-      console.log("quant ="+quant);
-      var id = event.target.parentElement.id;
-      console.log(id);
-    }
     cartcntx.increaseItem(id);
   };
 
@@ -56,10 +24,10 @@ const Cart = (props) => {
         <li key={item.id} id={item.id} value={item.quantity}>
           Name: {item.name} Price: {item.price} Quantity: {item.quantity} Total
           Price: {(item.price * item.quantity).toFixed(2)} Id: {item.id}
-          <button className={"reduce"} onClick={reduceItemFromCart}>
+          <button className={"reduce"} onClick={()=>reduceItemFromCart(item.id)}>
             -
           </button>
-          <button className={"increase"} onClick={increaseItemInCart}>
+          <button className={"increase"} onClick={()=>increaseItemInCart(item.id)}>
             +
           </button>
         </li>
