@@ -22,22 +22,37 @@ const CartProvider = (props) => {
     console.log("inside addItemToCartHandler", cartContext);
   };
 
-  // being invoked from Cart comp cartcntx.removeItem(id)
-  const removeItemFromCartHandler = (id) => {
-    console.log("removed item id is" + id);
+  // being invoked from Cart comp cartcntx.increaseItem(id)
+  const increaseItemInCartHandler = (id) => {
     const idx = items.findIndex((i) => i.id === id);
     let temp = [...items];
-    temp.splice(idx,1);
+    temp[idx].quantity = Number(temp[idx].quantity) + 1;
     updateItems(temp);
   };
 
-  console.log("open " + items.length);
+  // being invoked from Cart comp cartcntx.removeItem(id)
+  const removeItemFromCartHandler = (id) => {
+    const idx = items.findIndex((i) => i.id === id);
+    let temp = [...items];
+    temp[idx].quantity = Number(temp[idx].quantity) - 1;
+    if (temp[idx].quantity > 0){
+      updateItems(temp);
+    }
+    else {
+      temp.splice(idx,1);
+      updateItems(temp);
+    }
+    
+  };
+
+
 
   const cartContext = {
     items: items,
+    increaseItem: increaseItemInCartHandler,
     addItem: addItemToCartHandler,
     removeItem: removeItemFromCartHandler,
-    msg: "I am accessible anywhere",
+    msg: "!",
   };
   console.log("carttt " + cartContext.items);
   return (
